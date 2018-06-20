@@ -14,20 +14,20 @@ function Product(name){
     this.vote = 0;
     this.seen = 0;
     if(name === 'usb'){
-        this.path = 'img/' + name + '.gif';
+        this.path = 'assets/' + name + '.gif';
     }else if(name === 'sweep'){
-        this.path = 'img/' + name + '.png';
+        this.path = 'assets/' + name + '.png';
     }else{
-        this.path = 'img/' + name + '.jpg';
+        this.path = 'assets/' + name + '.jpg';
     };
     Product.all.push(this);
-}
+};
 
 function buildProducts(){
     for (var i = 0; i < Product.names.length; i++){
         new Product(Product.names[i]);
     }
-}
+};
 
 function showItems(){
     var currentItems = [];
@@ -54,11 +54,17 @@ function showItems(){
         console.log('duplicate found on right');
         currentItems[2] = Randomize();
     }
-}
+    for(var i = 0; i < 3; i++){
+        Product.pics[i].src = Product.all[currentItems[i]].path;
+        Product.pics[i].id = Product.all[currentItems[i]].name;
+        Product.all[currentItems[i]].seen +=1;
+        Product.lastSeen[i] = currentItems[i];
+    }
+};
 
 function Randomize(){
     return Math.floor(Math.random() * Product.names.length);
-}
+};
 
 //click event handler
 
@@ -82,9 +88,24 @@ function clickHandler(event){
     // stop and remove after 24 clicks
     if(Product.clickCount > 24){
         Product.container.removeEventListener('click', clickHandler);
-        localStorage.removeItem('Clicks');
+
+        makeChart();
+
+        localStorage.removeItem('clickCount');
     }
-}
+};
+
+var lsProduct;
+var lsClicks;
+var getInfo;
+var getClick;
+
+if (localStorage.Products){
+    getInfo = localStorage.getItem('Products');
+    Product.all = JSON.parse(getInfo);
+    getClick = localStorage.getItem('clickCount');
+    Product.clickCount = JSON.parse(getClick);
+};
 
 function makeChart(){
     var labelColors = ['red', 'blue', 'yellow','green','red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green'];
