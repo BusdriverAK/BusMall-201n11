@@ -28,6 +28,7 @@ function showItems(){
     for(var i = 0; i < Product.names.length; i++){
         Product.voteCount.push(Product.all[i].vote);
     }
+// run checks to see if new image was used for last seen
 
     currentItems[0] = Randomize();
     while(Product.lastSeen.indexOf(currentItems[0]) !== -1){
@@ -36,18 +37,21 @@ function showItems(){
     }
 
     currentItems[1] = Randomize();
-    while(Product.lastSeen.indexOf(currentItems[1]) !== -1){
+    while(Product.lastSeen.indexOf(currentItems[0]) || Product.lastSeen.indexOf(currentItems[1]) !== -1) {
         console.log('duplicate found on center');
         currentItems[1] = Randomize();
     }
 
     currentItems[2] = Randomize();
-    while(Product.lastSeen.indexOf(currentItems[0]) !== -1){
+    while(Product.lastSeen.indexOf(currentItems[0]) || Product.lastSeen.indexOf(currentItems[1]) || Product.lastSeen.indexOf(currentItems[2]) !== -1){
         console.log('duplicate found on right');
-        currentItems[0] = Randomize();
+        currentItems[2] = Randomize();
     }
 }
 
 function Randomize(){
     return Math.floor(Math.random() * Product.names.length);
 }
+
+//click event handler
+
