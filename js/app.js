@@ -10,10 +10,17 @@ Product.pics = [document.getElementById('left'), document.getElementById('center
 
 function Product(name){
     this.name = name;
-    this.path = path;
+    this.path;
     this.vote = 0;
     this.seen = 0;
-    Produc.all.push(this);
+    if(name === 'usb'){
+        this.path = 'img/' + name + '.gif';
+    }else if(name === 'sweep'){
+        this.path = 'img/' + name + '.png';
+    }else{
+        this.path = 'img/' + name + '.jpg';
+    };
+    Product.all.push(this);
 }
 
 function buildProducts(){
@@ -79,3 +86,39 @@ function clickHandler(event){
     }
 }
 
+function makeChart(){
+    var labelColors = ['red', 'blue', 'yellow','green','red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green', 'red', 'blue', 'yellow','green'];
+    var ctx = document.getElementById('chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+            labels: Product.names,
+            datasets: [{
+                label: '# of Votes for each Products',
+                data: Product.votesData,
+                backgroundColor: labelColors
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+// clear local storage
+var clearStorage = document.getElementById('clearStorage');
+
+clearStorage.addEventListener('click', function(){
+    console.log('Local Storage Cleared');
+    localStorage.clear();
+});
+
+buildProducts();
+showItems();
+Product.container.addEventListener('click', clickHandler);
