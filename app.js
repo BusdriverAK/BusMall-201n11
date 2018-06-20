@@ -55,3 +55,27 @@ function Randomize(){
 
 //click event handler
 
+function clickHandler(event){
+    if (event.target.id === 'image-container') {
+        return alert('Please click on an item you would like to vote for.');
+    }
+    Product.clickCount += 1;
+    for (var i = 0; i < Product.names.length; i++){
+        if(event.target.id === Product.all[i].name){
+            Product.all[i].vote += 1;
+        }
+    }
+    showItems();
+    //strigify for local storage
+    lsProduct = JSON.stringify(Product.all);
+    localStorage.setItem('Products', lsProduct);
+    lsClicks = JSON.stringify(Product.clickCount);
+    localStorage.setItem('Clicks', lsClicks);
+
+    // stop and remove after 24 clicks
+    if(Product.clickCount > 24){
+        Product.container.removeEventListener('click', clickHandler);
+        localStorage.removeItem('Clicks');
+    }
+}
+
