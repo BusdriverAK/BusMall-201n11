@@ -49,13 +49,13 @@ function showItems(){
     }
 
     currentItems[1] = Randomize();
-    while(Product.lastSeen.indexOf(currentItems[0]) || Product.lastSeen.indexOf(currentItems[1]) !== -1) {
+    while(currentItems[0] === currentItems[1] || Product.lastSeen.indexOf(currentItems[1]) !== -1) {
         console.log('duplicate found on center');
         currentItems[1] = Randomize();
     }
 
     currentItems[2] = Randomize();
-    while(Product.lastSeen.indexOf(currentItems[0]) || Product.lastSeen.indexOf(currentItems[1]) || Product.lastSeen.indexOf(currentItems[2]) !== -1){
+    while(currentItems[0] === currentItems[2] || currentItems[1] === currentItems[2] || Product.lastSeen.indexOf(currentItems[2]) !== -1){
         console.log('duplicate found on right');
         currentItems[2] = Randomize();
     }
