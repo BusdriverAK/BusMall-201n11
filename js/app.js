@@ -8,10 +8,15 @@ Product.clickCount = 0;
 Product.container = document.getElementById('image-container');
 Product.pics = [document.getElementById('left'), document.getElementById('center'), document.getElementById('right')];
 
+var lsProduct;
+var lsClicks;
+var getInfo;
+var getClick;
+
 function Product(name){
     this.name = name;
     this.path;
-    this.vote = 0;
+    this.votes = 0;
     this.seen = 0;
     if(name === 'usb'){
         this.path = 'assets/' + name + '.gif';
@@ -33,7 +38,7 @@ function showItems(){
     var currentItems = [];
     Product.voteCount = [];
     for(var i = 0; i < Product.names.length; i++){
-        Product.voteCount.push(Product.all[i].vote);
+        Product.voteCount.push(Product.all[i].votes);
     }
 // run checks to see if new image was used for last seen
 
@@ -75,7 +80,7 @@ function clickHandler(event){
     Product.clickCount += 1;
     for (var i = 0; i < Product.names.length; i++){
         if(event.target.id === Product.all[i].name){
-            Product.all[i].vote += 1;
+            Product.all[i].votes += 1;
         }
     }
     showItems();
@@ -95,10 +100,7 @@ function clickHandler(event){
     }
 };
 
-var lsProduct;
-var lsClicks;
-var getInfo;
-var getClick;
+
 
 if (localStorage.Products){
     getInfo = localStorage.getItem('Products');
@@ -116,7 +118,7 @@ function makeChart(){
             labels: Product.names,
             datasets: [{
                 label: '# of Votes for each Products',
-                data: Product.votesData,
+                data: Product.voteCount,
                 backgroundColor: labelColors
             }]
         },
